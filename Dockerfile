@@ -2,6 +2,14 @@ FROM rocker/tidyverse
 
 RUN sudo apt-get -y install libudunits2-dev
 
+RUN R -e "install.packages('RcppEigen', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
+RUN R -e "install.packages('RcppParallel', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
+RUN R -e "install.packages('spacyr', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
+RUN R -e "install.packages('rJava', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
+RUN R -e "install.packages('config', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
+RUN R -e "install.packages('RODBC', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
+RUN R -e "install.packages('network', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
+
 RUN R -e "install.packages('tidytext', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
 RUN R -e "install.packages('msgpack', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
 
