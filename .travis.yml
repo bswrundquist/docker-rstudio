@@ -1,0 +1,17 @@
+sudo: enabled
+language: bash
+services:
+- docker
+after_success:
+- export REPO=bswrundquist/rstudio
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
+  ; fi`
+- docker build -f Dockerfile -t $REPO:$COMMIT .
+- docker tag $REPO:$COMMIT $REPO:$TAG
+- docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+- docker push $REPO
+env:
+  global:
+    secure: il3tpzvDtwQ3QJAOAB6d/gCdsRjZIBKHClwpdskFZmJ+GwxlvmBBpn5Jsu59LGcumAEYNLwgIyz6IwFJzD688/s8aBuHyVaPK4ul2z/vxMK7x573VX1jgkPrYA1lw4FS0kqOyx3HZL6T9oXJHOMVpmgih4RNa3yN6v9u4O35hjFQjpy+Z3RwYVtyEOIvZNZ5Ygb3ZTxhSVPuYcyIrRXDMkyavUcxCVGu2BrhaMm2vhrzYfcBGdJapHJSoU1FLfQ1GT7gpUvKCcFlkH3qf07Pff22XQjPCStLLqIbLD4LE2925B4Z4Mc3Fwbu1UhlGd4wo5fdPP4YzRl/mjOWZGcnw72yM79FPMV09b4SGEUWtn4xgas90sgcSFt1QBRGk5djg6GdZXjm0wXu4YfbWkR+GoPCLFJY0JGI5LmmMHXNH1fSTOxGgTtLv9qxEGum+G8Zw5hHVzQUGMyqXlSz/SkjdIAO9bYzOYtTlQlKxCCME7I4zSrguhBlQYmcUZZKjnbrr/+fzbMRI657K5SaPEmKjYZGKP7L3GKT02SSqPUhwOeJkMTgZeLB4dVDYjBNsR6oS0U65/QDqnu4uo9DVr2D3BO2rE6YUx5p3DkekZaN+dichlnVv87e2w9sbJy0VU64c0+XQCiLt2Vw7YnSQw4GrOb6iokR6gJ6+dv/E5hRa+A=
+    - COMMIT=${TRAVIS_COMMIT::8}
