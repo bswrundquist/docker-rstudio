@@ -1,6 +1,6 @@
 FROM rocker/tidyverse
 
-RUN sudo apt-get install r-cran-rjava
+RUN sudo apt-get -y install r-cran-rjava
 RUN sudo apt-get -y install libudunits2-dev
 
 RUN R -e "install.packages('RcppEigen', dependencies=TRUE, repos='http://cran.rstudio.com/', quiet=TRUE)"
